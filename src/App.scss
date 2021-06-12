@@ -1,0 +1,131 @@
+.panelContainer {
+  height: 70vh;
+  width: 70vh;
+  position: relative;
+  margin: auto;
+
+  display: grid;
+  grid-template-columns: repeat(2, 50px) repeat(3, 4fr) repeat(2, 50px);
+  grid-template-rows: repeat(2, 50px) repeat(3, 4fr) repeat(2, 50px);
+  grid-template-areas:  "n n n n n n n"
+                        "w na na na na na e"
+                        "w wa p p p ea e"
+                        "w wa p p p ea e"
+                        "w wa p p p ea e"
+                        "w sa sa sa sa sa e"
+                        "s s s s s s s";
+
+  &::after {
+    content: '';
+    height: calc(100% - 100px);
+    width: calc(100% - 100px);
+    position: absolute;
+    top: calc((100% - (100% - 100px)) / 2 );
+    left: calc((100% - (100% - 100px)) / 2);
+    border-radius: 60vh;
+    border: 1px solid black;
+  }
+}
+
+.solarPanelOrientator {
+  margin: auto;
+  padding: 5vh 20vh;
+  box-sizing: border-box;
+}
+
+
+
+.cardinal,
+.angle {
+  align-self: center;
+  justify-self: center;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: .9rem;
+}
+
+.cardinal {
+  &.north {
+    grid-area: n;
+  }
+  
+  &.south {
+    grid-area: s;
+  }
+  
+  &.east {
+    grid-area: e;
+  }
+  
+  &.west {
+    grid-area: w;
+  }
+}
+
+.angle {
+  &.north {
+    grid-area: na;
+  }
+  
+  &.south {
+    grid-area: sa;
+  }
+  
+  &.west {
+    grid-area: wa;
+  }
+  
+  &.east {
+    grid-area: ea;
+  }
+}
+
+.east,
+.west {
+  align-self: center;
+}
+
+.east {
+  text-align: left;
+}
+
+.west {
+  text-align: right;
+}
+
+.north,
+.south {
+  text-align: center;
+}
+
+.south {
+  align-self: flex-end;
+}
+
+
+
+
+.panel {
+  grid-area: p;
+  border-radius: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .5s;
+
+  .arrow {
+    width: 10%;
+    position: absolute;
+    top: 0;
+  }
+
+  img {
+    height: 80%;
+  }
+}
+
+.actionsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
