@@ -15,6 +15,7 @@ const SolarPanelOrientator: FunctionComponent<SPOProps> = ({ title, showOrientat
 
     useEffect(() => {
         angleReset()
+        // eslint-disable-next-line
     }, [angleMode])
 
     const angleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
