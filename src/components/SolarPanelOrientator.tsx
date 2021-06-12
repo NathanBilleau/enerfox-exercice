@@ -15,7 +15,7 @@ const SolarPanelOrientator: FunctionComponent<SPOProps> = ({ title, showOrientat
 
     useEffect(() => {
         angleReset()
-    })
+    }, [angleMode])
 
     const angleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
         setAngle(parseInt(e.target.value))
