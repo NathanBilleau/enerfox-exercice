@@ -2,6 +2,7 @@
 import { ChangeEvent, FunctionComponent, useEffect, useState } from 'react'
 
 import Panel from './Panel'
+import Preset from './Preset'
 
 type SPOProps = {
     title: string
@@ -19,6 +20,14 @@ const SolarPanelOrientator: FunctionComponent<SPOProps> = ({ title, showOrientat
         angleMode,
         arrowColor,
     })
+
+    const [presets, setPresets] = useState<Array<{
+        angle: number,
+        tilt: number,
+        orientationEnabled: boolean,
+        angleMode: 'Sud_0' | 'Sud_180',
+        arrowColor: string
+    }>>([])
 
     const [efficiency, setEfficiency] = useState(0)
 
@@ -223,7 +232,7 @@ const SolarPanelOrientator: FunctionComponent<SPOProps> = ({ title, showOrientat
         // @ts-ignore
         setEfficiency((factors.angle[absoluteAngle] || 0) * factors.tilt[parseInt(settings.tilt)] * 100)
 
-    }, [settings.angle, settings.tilt])
+    }, [settings.angle, settings.tilt, settings.angleMode, factors.angle, factors.tilt])
 
     useEffect(() => {
         reset()
@@ -256,6 +265,25 @@ const SolarPanelOrientator: FunctionComponent<SPOProps> = ({ title, showOrientat
         })
     }
 
+    const save = (): void => {
+        setPresets([
+            // @ts-ignore
+            ...presets,
+            // @ts-ignore
+            settings,
+        ])
+    }
+
+    const enablePreset: Function = (color: string, angle: number, tilt: number, angleMode: 'Sud_0' | 'Sud_180', orientationEnabled: boolean): void => {
+        setSettings({
+            angle,
+            tilt,
+            angleMode,
+            arrowColor: color,
+            orientationEnabled
+        })
+    }
+
     return (
         <div className="solarPanelOrientator">
             <h2>
@@ -263,9 +291,35 @@ const SolarPanelOrientator: FunctionComponent<SPOProps> = ({ title, showOrientat
             </h2>
             <div className="container">
                 <div className="actionsContainer">
+
+                    <div>
+                        <input
+                            id="angleModeInput_0"
+                            type="radio"
+                            name="angleMode"
+                            value="Sud_0"
+                            checked={settings.angleMode === 'Sud_0'}
+                            onChange={inputChange} />
+                        <label htmlFor="angleModeInput_0">
+                            SUD 0
+                        </label>
+
+                        <input
+                            id="angleModeInput_180"
+                            type="radio"
+                            name="angleMode"
+                            value="Sud_180"
+                            checked={settings.angleMode === 'Sud_180'}
+                            onChange={inputChange} />
+                        <label htmlFor="angleModeInput_180">
+                            SUD 180
+                        </label>
+                    </div>
+
+
                     <div>
                         <label htmlFor="angleInput">
-                            Angle
+                            Angle (deg)
                         </label>
                         <input
                             id="angleInput"
@@ -279,7 +333,7 @@ const SolarPanelOrientator: FunctionComponent<SPOProps> = ({ title, showOrientat
 
                     <div>
                         <label htmlFor="tiltInput">
-                            Inclinaison
+                            Inclinaison (deg)
                         </label>
                         <input
                             id="tiltInput"
@@ -300,8 +354,7 @@ const SolarPanelOrientator: FunctionComponent<SPOProps> = ({ title, showOrientat
                             id="cardinalInput"
                             type="checkbox"
                             name="orientationEnabled"
-                            className="toggle"
-                            value={settings.orientationEnabled ? 'on' : 'off'}
+                            checked={settings.orientationEnabled}
                             onChange={inputChange} />
 
                     </div>
@@ -319,31 +372,7 @@ const SolarPanelOrientator: FunctionComponent<SPOProps> = ({ title, showOrientat
                     </div>
 
                     <div>
-                        <label htmlFor="angleModeInput_0">
-                            SUD 0
-                        </label>
-                        <input
-                            id="angleModeInput_0"
-                            type="radio"
-                            name="angleMode"
-                            value="Sud_0"
-                            checked={settings.angleMode === 'Sud_0'}
-                            onChange={inputChange} />
-
-                        <label htmlFor="angleModeInput_180">
-                            SUD 180
-                        </label>
-                        <input
-                            id="angleModeInput_180"
-                            type="radio"
-                            name="angleMode"
-                            value="Sud_180"
-                            checked={settings.angleMode === 'Sud_180'}
-                            onChange={inputChange} />
-
-                    </div>
-
-                    <div>
+                        <button className="btn primary" onClick={save}>Sauvegarder le preset</button>
                         <button className="btn secondary" onClick={reset}>Reset</button>
                     </div>
 
@@ -384,6 +413,16 @@ const SolarPanelOrientator: FunctionComponent<SPOProps> = ({ title, showOrientat
                         {settings.angleMode === 'Sud_0' ? '90°' : '270°'}
                     </button>
                     <Panel angle={settings.angle} tilt={settings.tilt} angleMode={settings.angleMode} arrowColor={settings.arrowColor} efficiency={efficiency} />
+                </div>
+                <div>
+                    <h3>Presets</h3>
+                    <div className="presetsContainer">
+                        {
+                            presets.map(p => (
+                                <Preset enablePreset={enablePreset} orientationEnabled={p.orientationEnabled} angle={p.angle} tilt={p.tilt} angleMode={p.angleMode} color={p.arrowColor} />
+                            ))
+                        }
+                    </div>
                 </div>
             </div>
         </div>

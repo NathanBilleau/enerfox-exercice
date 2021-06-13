@@ -154,6 +154,7 @@
     color: #fff;
     margin-bottom: 10px;
     display: block;
+    cursor: pointer;
   }
 
   input {
@@ -184,11 +185,35 @@
 
 .container {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1.5fr 3fr 1.5fr;
   gap: 30px;
 }
 
-.toggle {
+input[type=radio] {
+  appearance: none;
+  display: inline-block;
+  padding: 0;
+
+  & + label::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border: 1px solid #fff;
+    border-radius: 7px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 7px;
+    transition: .2s;
+  }
+
+  &:checked {
+    & + label::before {
+      background-color: #fff;
+    }
+  }
+}
+
+input[type=checkbox] {
   appearance: none;
   position: relative;
   cursor: pointer;
@@ -225,4 +250,22 @@
     transition: .2s;
   }
 
+}
+
+.presetsContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+
+  .preset {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 3px;
+    padding: 5px;
+    border: none;
+    font-family: 'Cabin';
+    cursor: pointer;
+  }
 }

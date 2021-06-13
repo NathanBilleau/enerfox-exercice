@@ -18,8 +18,8 @@ const Panel: FunctionComponent<PProps> = ({ angle, tilt, angleMode, arrowColor, 
                     transform: `perspective(500px) rotateX(${tilt}deg)`,
                 }}
                 alt="Panneau solaire" />
-            <svg className="arrow" viewBox="0 50 100 50" style={{ opacity: efficiency / 100 }} xmlns="http://www.w3.org/2000/svg">
-                <polygon points="50 50, 100 100, 0 100" fill={arrowColor.toString()} />
+            <svg className="arrow" viewBox="0 50 100 50" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="50 50, 100 100, 0 100" stroke="#000" strokeWidth={2} fill={arrowColor.toString()} fillOpacity={efficiency / 100} />
             </svg>
         </div>
     )
