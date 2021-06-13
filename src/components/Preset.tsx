@@ -1,4 +1,4 @@
-import { FunctionComponent, MouseEventHandler } from "react"
+import { FunctionComponent } from "react"
 
 type PProps = {
     angle: number
